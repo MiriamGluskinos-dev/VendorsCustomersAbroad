@@ -1,0 +1,65 @@
+<app-page-header [pageTitle]="title" [descriptionLines]="descriptionLines"></app-page-header>
+
+<div class="row row-gov">
+  <div class="col-10 col-lg-8 lg-mb-30 xs-mb-25">
+    <p-autoComplete #autoComplete fixAutocompleteAttributes inputId="tablesType" [suggestions]="filterTables" [dropdown]="true" [required]="true"
+      scrollHeight="400px" [size]="30" placeholder=" חפש קוד ושם טבלה..." [minLength]="1" styleClass="w-100 custom-autocomplete"
+      inputStyleClass="reforma w-100 form-control txt gray-txt search-input text-right clsred"
+      [(ngModel)]="selectedtablesTypeList" (onDropdownClick)="initSystemTablesList(tablesList); toggleDropdownVisibility();"
+      (completeMethod)="filterTablesType()" (onClear)="filterTablesType()" autoHighlight appendTo="body"
+      (onSelect)="searchData(); filterTablesType();" field="displayText" aria-autocomplete="both" role="combobox" 
+      [attr.aria-expanded]="isSuggestionsVisible ? true : false">
+
+    </p-autoComplete>
+  </div>
+
+  <div class="col-2 col-lg-4 lg-mb-30 xs-mb-25 excelContainer">
+    <p class="nounderline pull-left pointer ltr excelStyle" title="Excel-CSV" aria-label="להורדה בפורמט אקסל או CSV"
+      (click)="dt.exportCSV()">
+      <img src="assets/images/excel.png" alt="Excel Icon" class="blue-txt social-size"
+        style="width: 45px; height: 40px;" tabindex="0">
+    </p>
+  </div>
+</div>
+
+<div class="row row-gov" style="max-width: 100%; overflow-x: auto;">
+  <div class="col-sm-12 table-responsive table-striped lg-mb-30 xs-mb-25">
+
+    <p-table #myTable [columns]="columns" [value]="gridData"
+    [paginator]="true" [rows]="50" tabindex="0" [responsive]="true" appendTo="body"
+      [first]="currentIndex" (onFilter)="dt.reset()" #dt class="mainTable" tabindex="0">
+
+      <ng-template pTemplate="header" let-columns>
+        <tr class="headerStyle">
+
+          <th class="white blue-txt pb-0 text-center" style="word-wrap: break-word"
+            *ngFor="let col of columns" [attr.tabindex]="0">
+            {{col.header}}
+          </th>
+
+        </tr>
+      </ng-template>
+
+      <!-- Data -->
+      <ng-template pTemplate="body" let-rowData>
+
+        <tr class="bodyStyle">
+          <td class="dark-grey-txt description-txt" style="word-wrap: break-word " *ngFor="let col of columns"  class="tableStyle">
+            <!-- <span class="ui-column-title">{{col.header}}</span> -->
+            <ng-container
+              *ngIf="(col.header=='תאריך התחלה') || (col.header== 'תאריך סוף') ||(col.header== 'StartDate')||(col.header== 'EndDate') ">
+
+              {{rowData[col.field ]| date: 'dd/MM/yyyy'}}
+            </ng-container>
+            <ng-container
+              *ngIf="(col.header!=='תאריך התחלה') && (col.header!== 'תאריך סוף')&&(col.header!== 'StartDate')&&(col.header!== 'EndDate') ">
+              {{rowData[col.field ]}}
+            </ng-container>
+
+          </td>
+        </tr>
+
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -1,0 +1,145 @@
+::ng-deep .p-datepicker {
+    scale: 80%;
+}
+
+::ng-deep .p-datepicker-prev-icon,
+::ng-deep .p-datepicker-next-icon {
+    transform: rotate(180deg);
+}
+
+
+::ng-deep .p-datatable-table tbody tr td {
+    padding: .25em .5em;
+    text-align: right;
+}
+
+::ng-deep .p-sortable-column:not(.p-highlight) .sortIcon,
+.p-sortable-column:not(.p-highlight) .SortBtn {
+    display: none;
+}
+
+::ng-deep .p-icon {
+    color: #285c7e !important;
+}
+
+::ng-deep .p-sortable-column:hover .p-sorticon,
+.p-sortable-column.p-highlight .sortIcon,
+.p-sortable-column.p-highlight .SortBtn {
+    display: inline-block;
+}
+
+.ui-sortable-column-icon:focus {
+    border: none !important;
+    outline: none !important;
+}
+
+::ng-deep .p-paginator-next,
+::ng-deep .p-paginator-prev {
+    border: none !important;
+    background: transparent !important;
+}
+
+::ng-deep .p-disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+::ng-deep .p-calendar {
+    width: 100%;
+    height: 77% !important;
+    justify-content: center;
+    align-items: center;
+}
+
+::ng-deep .text-right {
+    text-align: right !important;
+}
+
+::ng-deep .p-button-icon-only {
+    left: -3px;
+    position: relative;
+}
+
+::ng-deep .form-control {
+    border: solid 1px #285c7e;
+    border-radius: 7px !important;
+    background-color: #fff;
+    padding: 0 5px 0 1.5em !important;
+    display: inline !important;
+}
+
+::ng-deep .p-datatable td {
+    color: #263c4a !important;
+}
+
+::ng-deep .p-datatable {
+    min-height: 350px;
+}
+
+::ng-deep .p-datatable-table {
+    border: 1px solid #dee2e6;
+}
+
+::ng-deep .p-highlight {
+    color: #285c7e !important;
+    text-decoration: underline;
+    font-family: Arial;
+}
+
+::ng-deep .p-datatable th {
+    width: 140px;
+    text-decoration: none;
+    padding: 1rem 1rem !important;
+}
+
+::ng-deep .p-autocomplete-item {
+    text-align: right !important;
+}
+
+::ng-deep .p-button-icon-only {
+    width: 2em;
+    box-sizing: border-box;
+    text-indent: 0px !important;
+    white-space: nowrap;
+    color: #285c7e !important;
+}
+
+::ng-deep .p-autocomplete-input,
+::ng-deep .p-autocomplete-dropdown,
+::ng-deep .p-inputtext,
+::ng-deep .p-datepicker-trigger {
+    border: none !important;
+    background: none !important;
+    color: #285c7e !important;
+    margin-bottom: 15px;
+}
+
+::ng-deep .p-autocomplete-input::placeholder {
+    color: #285c7e !important;
+}
+
+::ng-deep .p-paginator {
+    direction: ltr !important;
+}
+
+::ng-deep .p-paginator-element {
+    margin: 10px;
+    color: #285c7e !important;
+}
+
+::ng-deep .breadcrumbs-gov li a {
+    text-decoration: none !important;
+}
+
+::ng-deep .p-highlight {
+    background-color: white !important;
+}
+
+.excelContainer {
+    display: grid;
+    place-items: flex-end;
+
+    .excelStyle {
+        width: fit-content;
+    }
+}

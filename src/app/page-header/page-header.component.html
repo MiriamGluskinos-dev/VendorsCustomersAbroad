@@ -1,0 +1,69 @@
+<!--Breadcrumbs-->
+<nav class="row row-gov" role="navigation" aria-label="ניווט פירורי לחם">
+    <div id="breadcrumbs" class="col-md-12  lg-mt-10">
+        <ul class="breadcrumbs-gov hidden-print">
+            <!--HP link-->
+            <li><a href="/he" target="_self" tabindex="0">gov.il</a></li>
+            <!-- Generate Link to Collector-->
+            <li><a href="/apps/taxes" target="_self" tabindex="0">רשות המסים בישראל</a></li>
+            <li><span class="dark-gray-txt" tabindex="0">{{pageTitle}}</span></li>
+        </ul>
+    </div>
+    <div class="clearfix xs-mb-25 lg-mb-30"></div>
+</nav>
+
+
+<!-- Header -->
+<div class="row row-gov">
+    <!-- Title -->
+    <div class="col-xs-12 col-md-12">
+        <h1 class="h1 dark-blue-txt reforma-medium lg-mb-20 xs-mb-25" tabindex="0">{{pageTitle}}</h1>
+        <div class="description-txt dark-blue-txt lg-mb-30 xs-mb-10" tabindex="0" style="font-weight: bold;">
+            <p class="title" *ngFor="let line of descriptionLines" style="line-height: 1.5">{{line}}</p>
+        </div>
+
+
+        <!-- Share -->
+        <div class="row row-gov no-gutters pr-hide" dir="rtl" style="text-align: right;">
+            <div class="col-xs-12 col-md-12 socialsContainer">
+
+
+                <!-- Email -->
+                <a class="nounderline" href="javascript:mailThisUrl()" target="_blank" aria-label="אימייל" tabindex="0">
+                    <i class="social icon-email3 blue-txt social-size" style="color:#ba0000"></i>
+                </a>
+                <!-- Twitter -->
+                <a class="nounderline" id="TwitterURL" href="https://twitter.com/intent/tweet?url=" target="_blank"
+                    aria-label="טוויטר" onclick="share(this.id)" tabindex="0">
+                    <i class="social icon-twitter3 blue-txt social-size" style="color:#32cdfd"></i>
+                </a>
+                <!-- Linkdin-->
+                <a class="nounderline" id="LinkedinURL" href=" https://www.linkedin.com/shareArticle?mini=true&amp;url="
+                    aria-label="לינקד-אין" target="_blank" onclick="share(this.id)" tabindex="0">
+                    <i class="social icon-linkedin3 blue-txt social-size" style="color:#0077b5"></i>
+                </a>
+                <!-- Facebook -->
+                <a class="nounderline" id="FacebookURL" href="https://facebook.com/sharer.php?u="
+                    aria-label="פייסבוק" target="_blank" onclick="share(this.id)" tabindex="0">
+                    <i class="social icon-facebook3  blue-txt social-size" style="color:#3a589e"></i>
+                </a>
+                <!-- Whatapp mobile-->
+                <a class="nounderline visible-on-mobile" id="WhatsappURL" href="whatsapp://send?text="
+                    aria-label="ווטאסאפ-סמארטפון" target="_blank" onclick="share(this.id)" tabindex="0">
+                    <i class="social icon-whatsapp3 blue-txt social-size" style="color:#29a71a"></i>
+                </a>
+                <!-- Whatapp desktop-->
+                <a class="nounderline visible-on-desktop" id="WhatsappURL" href="https://web.whatsapp.com/send?text="
+                    aria-label="ווטסאפ" target="_blank" onclick="share(this.id)" tabindex="0">
+                    <i class="social icon-whatsapp3 blue-txt social-size" style="color:#29a71a"></i>
+                </a>
+                <!--horizontal line-->
+                <div class="row row-gov lg-mb-30 xs-mb-25">
+                    <div class="col-md-12">
+                        <div class="horizontal-line-lightGrey"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,136 @@
+// /* Modern PrimeNG Styles */
+
+// /* Adjust button icons */
+// ::ng-deep {
+//     .p-button-icon-only {
+//       width: 2em;
+//       text-indent: 0 !important;
+//       white-space: nowrap;
+//       color: #285c7e !important;
+//     }
+
+//     /* Remove table default borders */
+//     .p-datatable {
+//       table-layout: unset !important;
+
+//       th,
+//       td {
+//         padding: 5.5px !important;
+//       }
+//     }
+
+//     /* Paginator adjustments */
+//     .p-paginator {
+//       direction: ltr !important;
+//       background-color: white !important;
+//       border: none;
+//       padding-top: 10px;
+//     }
+
+//     /* Form control styling */
+//     .form-control {
+//       border: solid 1px #285c7e;
+//       border-radius: 7px !important;
+//       height: 32px;
+//       background-color: #fff;
+//       padding: 0 5px 0 1.5em !important;
+//     }
+
+//     /* Dropdown and autocomplete adjustments */
+//     .p-autocomplete-panel {
+//       top: 32.5px !important;
+//       right: 0;
+//       width: 250px;
+//       background-color: white !important;
+//     }
+
+//     .p-autocomplete-dropdown {
+//       top: 0;
+//       left: 0;
+//       display: block;
+//       position: absolute;
+//     }
+//     .clsred{
+//       background-color: white !important;
+//     }
+
+//     .text-right {
+//       text-align: right !important;
+//     }
+
+//     .text-center {
+//       text-align: center !important;
+//     }
+//   }
+
+//   @media (max-width: 768px) {
+//     .pi-search {
+//       display: none;
+//     }
+//   }
+::ng-deep .p-datatable-table {
+  border: none !important;
+}
+
+::ng-deep .table-responsive thead tr th {
+  background-color: #f9f9f9 !important;
+  padding: 5.5px !important;
+  border: none !important;
+}
+
+::ng-deep .table-responsive tbody tr td {
+  border: none !important;
+}
+
+::ng-deep .tableStyle {
+  text-align: right !important;
+  border: none !important;
+}
+
+::ng-deep .bodyStyle td {
+  padding: 5.5px !important;
+  font-size: 20px !important;
+  font-family: Rubik, sans-serif !important;
+  color: #263c4a !important;
+  border: none !important;
+}
+
+::ng-deep .bodyStyle:nth-child(odd) {
+  background-color: rgba(0, 0, 0, .05);
+}
+
+::ng-deep .p-datatable-table {
+  border: none !important;
+}
+
+::ng-deep .p-paginator {
+  direction: ltr !important;
+}
+
+::ng-deep .p-paginator-element {
+  margin: 10px;
+  color: #285c7e !important;
+}
+
+::ng-deep .custom-autocomplete input:focus {
+  box-shadow: 0 0 0 2px #285c7e !important;
+  width: 100% !important;
+}
+
+::ng-deep pi-inputtext:focus {
+  box-shadow: 0 0 0 2px #285c7e !important;
+  width: 100% !important;
+}
+
+::ng-deep .p-autocomplete-panel .p-autocomplete-item:hover {
+  background-color: #d3d3d3 !important;
+  box-shadow: 0 0 0 2px #285c7e !important;
+}
+
+::ng-deep .mainTable {
+  max-width: 100%;
+  overflow-x: auto;
+  transform: scale(0.8);
+  transform-origin: top left;
+  width: 100%;
+}
