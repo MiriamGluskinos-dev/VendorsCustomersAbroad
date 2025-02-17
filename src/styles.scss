@@ -143,3 +143,9 @@
         width: fit-content;
     }
 }
+
+::ng-deep .custom-autocomplete input:focus,
+::ng-deep .custom-input:focus {
+    box-shadow: 0 0 0 2px #285c7e !important;
+    width: 100% !important;
+}

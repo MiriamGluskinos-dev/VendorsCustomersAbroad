@@ -1,0 +1,98 @@
+{
+    "ResponseContentHeader": {
+        "TransmitionDateTime": "2025-02-13 11:53:52",
+        "ApplicationID": 0,
+        "Exception": null,
+        "Remark": null
+    },
+    "Exception": null,
+    "NumberOfResults": 7536,
+    "NumberOfResultsSpecified": true,
+    "VendorResults": [
+        {
+            "vendorTypeID": 1,
+            "VendorTypeIDName": "ספק",
+            "vendorID": 3676446,
+            "vendorName": "Plywood LLC",
+            "dunsNumberSpecified": false,
+            "licensedDealerNumber": "5218001499",
+            "englishCountryID": "RU",
+            "englishCountryName": "Russian Federation",
+            "englishSubCountryID": "RU-NIZ",
+            "englishSubCountryName": "Nizhegorodskaya oblast'",
+            "statusID": 1,
+            "statusName": "פעיל",
+            "Address": [
+                "Russian Federation Nizhegorodskaya oblast', Nizhny Novgrod, 606570, 10A May 1 street"
+            ]
+        },
+        {
+            "vendorTypeID": 1,
+            "VendorTypeIDName": "ספק",
+            "vendorID": 3676133,
+            "vendorName": "YASYNOVYY ALEXANDER",
+            "dunsNumberSpecified": false,
+            "licensedDealerNumber": null,
+            "englishCountryID": "RU",
+            "englishCountryName": "Russian Federation",
+            "englishSubCountryID": null,
+            "englishSubCountryName": null,
+            "statusID": 1,
+            "statusName": "פעיל",
+            "Address": [
+                "Russian Federation , RUSSIA, NONE, RUSSIA"
+            ]
+        },
+        {
+            "vendorTypeID": 1,
+            "VendorTypeIDName": "ספק",
+            "vendorID": 3675524,
+            "vendorName": "IMPERIAL LLC",
+            "dunsNumberSpecified": false,
+            "licensedDealerNumber": null,
+            "englishCountryID": "RU",
+            "englishCountryName": "Russian Federation",
+            "englishSubCountryID": null,
+            "englishSubCountryName": null,
+            "statusID": 1,
+            "statusName": "פעיל",
+            "Address": [
+                "Russian Federation , OGRN, 302016, ORYOL"
+            ]
+        },
+        {
+            "vendorTypeID": 1,
+            "VendorTypeIDName": "ספק",
+            "vendorID": 3675093,
+            "vendorName": "ABSOLUT LLC PANTUSHIN ALEXANDER ALEXANDROVICH",
+            "dunsNumberSpecified": false,
+            "licensedDealerNumber": "771693609",
+            "englishCountryID": "RU",
+            "englishCountryName": "Russian Federation",
+            "englishSubCountryID": null,
+            "englishSubCountryName": null,
+            "statusID": 1,
+            "statusName": "פעיל",
+            "Address": [
+                "Russian Federation , MOSCOW, 129128, PLATFORM SEVERYANIN 14/1"
+            ]
+        },
+        {
+            "vendorTypeID": 1,
+            "VendorTypeIDName": "ספק",
+            "vendorID": 3674485,
+            "vendorName": "HOOKAH SYNDICATE",
+            "dunsNumberSpecified": false,
+            "licensedDealerNumber": null,
+            "englishCountryID": "RU",
+            "englishCountryName": "Russian Federation",
+            "englishSubCountryID": null,
+            "englishSubCountryName": null,
+            "statusID": 1,
+            "statusName": "פעיל",
+            "Address": [
+                "Russian Federation , RUSSIA, 3265874, BULDING 212 ROSTOV ON DON RUSSIA"
+            ]
+        }
+    ]
+}

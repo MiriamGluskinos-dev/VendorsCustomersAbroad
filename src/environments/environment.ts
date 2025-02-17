@@ -4,13 +4,10 @@ export const environment = {
     apiUrl: 'https://shaarolami-query.customs.mof.gov.il/',
     ReCaptcha: {
       jsUrl: 'https://www.google.com/recaptcha/api.js?render=explicit', // default
-      siteKey: '6LflyNMqAAAAAIvnCb9iIv8qepCitzw9JazaSAt-'
+      siteKey: '6Ldw1M0UAAAAAAL8daGkfa686odzbbC5hXbtAQ3T'
     },
     baseUrls: {
       govscript: '/govscript',
       shaarolami: '/shaarolami'
     }
   };
-
-
-  

@@ -267,6 +267,11 @@ input.ng-invalid{
     font-weight:bold;
 }
 
+::ng-deep .p-autocomplete-panel .p-autocomplete-item:hover {
+    background-color: #d3d3d3 !important;
+    box-shadow: 0 0 0 2px #285c7e !important;
+}
+
 
 
 

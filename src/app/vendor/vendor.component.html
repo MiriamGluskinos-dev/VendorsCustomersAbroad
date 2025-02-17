@@ -5,12 +5,14 @@
   <div class="col-12 col-sm-2 col-lg-2 lg-mb-30 xs-mb-25 xs-pl-15">
     <ng-template [ngIf]="flagRequiredCountry">
       <label class="labelFor" for="country"></label>
-      <p-autoComplete inputId="country" name="country" [suggestions]="filteredDataCountry" [dropdown]="true"
-        [required]="true" scrollHeight="400px" [size]="30" placeholder="מדינה" [minLength]="1"
+      <p-autoComplete #countryRequiredAutoComplete fixAutocompleteAttributes role="combobox" aria-autocomplete="both" inputId="country"
+        name="country" [suggestions]="filteredDataCountry" [dropdown]="true" [required]="true" scrollHeight="400px"
+        [size]="30" placeholder="מדינה" [minLength]="1" [appendTo]="'body'" class="custom-autocomplete"
         inputStyleClass="form-control txt gray-txt search-input text-right filter requiredClass "
         (completeMethod)="filterCountry()" [(ngModel)]="selectedCountryList" autoHighlight field="Name"
         (onSelect)="searchData(); filterCountry();flagErrorFeildCountryFunc();" (onClear)="clearFilter()"
-        (onDropdownClick)="initCountyTablesList(StatesList)">
+        (onDropdownClick)="initCountyTablesList(StatesList); toggleCountryDropdownVisibility()"
+        [attr.aria-expanded]="isCountySuggestionsVisible ? true : false">
 
       </p-autoComplete>
       <div class="input-error" style="display: block;" *ngIf="flagRequiredCountry&&flagErrorFeildCountry">
@@ -19,11 +21,14 @@
 
     <ng-template [ngIf]="flagNotRequiredCountry">
       <label class="labelFor" for="country"></label>
-      <p-autoComplete inputId="country" name="country" [suggestions]="filteredDataCountry" [dropdown]="true"
-        [required]="true" scrollHeight="400px" [size]="30" placeholder="מדינה" [minLength]="1"
+      <p-autoComplete fixAutocompleteAttributes role="combobox" aria-autocomplete="both" inputId="country"
+        name="country" [suggestions]="filteredDataCountry" [dropdown]="true" [required]="true" scrollHeight="400px"
+        [size]="30" placeholder="מדינה" [minLength]="1" [appendTo]="'body'" class="custom-autocomplete"
         inputStyleClass="form-control txt gray-txt search-input text-right filter" (completeMethod)="filterCountry()"
         [(ngModel)]="selectedCountryList" autoHighlight (onSelect)="searchData(); filterCountry();"
-        (onClear)="clearFilter()" field="Name" (onDropdownClick)="initCountyTablesList(StatesList)">
+        (onClear)="clearFilter()" field="Name" 
+        (onDropdownClick)="initCountyTablesList(StatesList); toggleCountryDropdownVisibility()"
+        [attr.aria-expanded]="isCountySuggestionsVisible ? true : false">
       </p-autoComplete>
     </ng-template>
   </div>
@@ -31,12 +36,14 @@
   <div class="col-12 col-sm-2 col-lg-2 lg-mb-30 xs-mb-25 xs-pl-15">
     <label class="labelFor" for="type"></label>
     <ng-template [ngIf]="flagRequiredType">
-      <p-autoComplete inputId="type" name="type" [suggestions]="filteredDataType" [dropdown]="true" [required]="true"
-        scrollHeight="400px" [size]="30" placeholder="סוג" [minLength]="1" required
+      <p-autoComplete #typeRequiredAutoComplete fixAutocompleteAttributes role="combobox" aria-autocomplete="both" inputId="type" name="type"
+        [suggestions]="filteredDataType" [dropdown]="true" [required]="true" scrollHeight="400px" [size]="30"
+        placeholder="סוג" [minLength]="1" required class="custom-autocomplete"
         inputStyleClass="form-control txt gray-txt search-input text-right filter requiredClass"
-        (completeMethod)="filterType()" [(ngModel)]="selectedTypeList"
+        (completeMethod)="filterType()" [(ngModel)]="selectedTypeList" [appendTo]="'body'"
         (onSelect)="searchData();flagErrorFeildTypeFunc();" (onClear)="filterType()" field="Name" autoHighlight
-        (onDropdownClick)="initTypeTablesList(typeList)">
+        (onDropdownClick)="initTypeTablesList(typeList); toggleTypeDropdownVisibility()"
+        [attr.aria-expanded]="isTypeSuggestionsVisible ? true : false">
       </p-autoComplete>
       <div class="input-error" style="display: block;" *ngIf="flagRequiredType&&flagErrorFeildType">
         שדה זה הוא שדה חובה</div>
@@ -44,9 +51,11 @@
 
     <ng-template [ngIf]="flagNotRequiredType">
       <label class="labelFor" for="type"></label>
-      <p-autoComplete inputId="type" [suggestions]="filteredDataType" [dropdown]="true" [required]="true"
-        scrollHeight="400px" [size]="30" placeholder="סוג" [minLength]="1" required
-        (onDropdownClick)="initTypeTablesList(typeList)"
+      <p-autoComplete fixAutocompleteAttributes role="combobox" aria-autocomplete="both" inputId="type"
+        [suggestions]="filteredDataType" [dropdown]="true" [required]="true" scrollHeight="400px" [size]="30"
+        placeholder="סוג" [minLength]="1" required [appendTo]="'body'"
+        (onDropdownClick)="initTypeTablesList(typeList); toggleTypeDropdownVisibility()"
+        [attr.aria-expanded]="isTypeSuggestionsVisible ? true : false" class="custom-autocomplete"
         inputStyleClass="form-control txt gray-txt search-input text-right filter" (completeMethod)="filterType()"
         field="Name" [(ngModel)]="selectedTypeList" (onSelect)="searchData();" (onClear)="clearFilter()" autoHighlight>
       </p-autoComplete>
@@ -59,43 +68,36 @@
     <label class="labelFor" for="textNameNumber"></label>
 
     <input type="text" inputId="textNameNumber" [(ngModel)]="textNameNumber" placeholder="מספר מזהה שם"
-      class=" form-control txt gray-txt search-input text-right filter" title='מזהה הספק/לקוח חו"ל במערכת שער עולמי'>
+      class=" form-control txt gray-txt search-input text-right filter custom-input" title='מזהה הספק/לקוח חו"ל במערכת שער עולמי'>
   </div>
 
   <div class="col-12 col-sm-2 col-lg-2 lg-mb-30 xs-mb-25 xs-pl-15">
     <label class="labelFor" for="textVendorName"></label>
     <input type="text" id="textVendorName" [(ngModel)]="textVendorName" placeholder="שם ספק /לקוח חול"
-      class=" w-100 form-control txt gray-txt search-input text-right" (blur)="searchData()"
+      class=" w-100 form-control txt gray-txt search-input text-right custom-input" (blur)="searchData()"
       title='יש להזין משם הספק/לקוח חו"ל לפחות 2 תווים רצופים מסוג אותיות אנגליות או ספרות'>
-  </div>  
+  </div>
 </div>
 
 <!-- תוספת לחיפוש לפי קוד AEO -->
- <ng-template [ngIf]="flagNotRequiredType&&vendorId==1">
-<div class="row row-gov"  >
- 
-  <div class="col-12 col-sm-2 col-lg-2 lg-mb-30 xs-mb-25 xs-pl-15">
-    <label class="labelFor" for="textAEONumber"></label>
-    <input type="text" inputId="textAEONumber" [(ngModel)]="textAEONumber" placeholder="AEO מספר"
-      class=" form-control txt gray-txt search-input text-right filter" title='AEO מספר'>
+<ng-template [ngIf]="flagNotRequiredType&&vendorId==1">
+  <div class="row row-gov">
+
+    <div class="col-12 col-sm-2 col-lg-2 lg-mb-30 xs-mb-25 xs-pl-15">
+      <label class="labelFor" for="textAEONumber"></label>
+      <input type="text" inputId="textAEONumber" [(ngModel)]="textAEONumber" placeholder="AEO מספר" 
+              class=" form-control txt gray-txt search-input text-right filter custom-input" title='AEO מספר'>
+    </div>
   </div>
-</div>
 </ng-template>
 
 <div class="row row-gov">
   <div class="col-6 col-sm-2 col-lg-2 lg-mb-30 xs-mb-25 xs-pl-15">
     <form id="my_captcha_form">
-      <re-captcha 
-        #captchaRef 
-        (resolved)="resolved($event)" 
-        siteKey='6Ldw1M0UAAAAAAL8daGkfa686odzbbC5hXbtAQ3T' 
+      <re-captcha #captchaRef (resolved)="resolved($event)" siteKey='{{siteKey}}'
         size="invisible">
       </re-captcha>
-        <!-- <re-captcha  siteKey='{{siteKey}}' (resolved)="showResponse($event)"
-          initCallback="loadCaptcha"
-          (onResponse)="showResponse($event)"
-          size="invisible" language="iw"></re-captcha> -->
-         
+
       <button pButton icon="pi pi-search" iconPos="right" label="חיפוש" type="submit" value="submit"
         (click)="checkRequiredFields('')"
         style="color:white!important;background-color:#285c7e!important;border-radius: 7px ;direction: ltr;"></button>
@@ -104,8 +106,10 @@
   </div>
 
   <div class="col-6 col-sm-2 col-lg-2 lg-mb-30 xs-mb-25">
-    <p class="nounderline pull-left pointer " title="Excel-CSV" (click)="table.exportCSV()">
-      <i class="icon icons-excel blue-txt social-size" style="color:#207245!important"></i>
+    <p class="nounderline pull-left pointer ltr excelStyle" aria-label="להורדה בפורמט אקסל או CSV"
+      (click)="table.exportCSV()">
+      <img src="assets/images/excel.png" alt="Excel Icon" class="blue-txt social-size"
+        style="width: 45px; height: 40px;" tabindex="0">
     </p>
   </div>
 </div>
@@ -119,12 +123,12 @@
 
 <div *ngIf="flag&&flagservice" class="row row-gov">
   {{mesResult}}
-  </div>
+</div>
 
 <div class="row row-gov" *ngIf="flag&&flagservice">
   <div class="col-sm-12 table-responsive table-striped lg-mb-30 xs-mb-25">
 
-    <p-table [columns]="columns" [value]="vendorsTable" [responsive]="true" [paginator]="true" [rows]="30"
+    <p-table [columns]="columns" [value]="vendorsTable" [responsive]="true" [paginator]="false" [rows]="30"
       [first]="currentIndex" (onFilter)="dt.reset()" #dt>
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -137,7 +141,6 @@
       <ng-template pTemplate="body" let-rowData>
         <tr>
           <td class="dark-grey-txt description-txt" *ngFor="let col of columns">
-            <span class="ui-column-title">{{col.header}}</span>
             {{rowData[col.field]}}
           </td>
         </tr>
@@ -145,4 +148,3 @@
     </p-table>
   </div>
 </div>
-

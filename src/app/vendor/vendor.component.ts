@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, ElementRef } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Table } from 'primeng/table';
 import { Vendor } from '../models/vedor';
 import { Observable } from 'rxjs';
 import { SystemTable } from '../models/SystemTable';
 import { HttpClient } from '@angular/common/http';
-import { response } from 'express';
+import * as res from './response.json';
 import { error } from 'console';
 import { RecaptchaComponent } from 'ng-recaptcha';
 
@@ -55,7 +55,7 @@ export class VendorComponent implements OnInit {
   //מכיל את הארץ והסוג הנבחרים
   selectedCountryList: any;
   selectedTypeList: any;
-  textNameNumber: number = -1;
+  textNameNumber!: number;
   textVendorName: string = "";
   o: Object = '';// json דוגמא ל
   vendorsTable: Vendor[] = [];
@@ -64,7 +64,8 @@ export class VendorComponent implements OnInit {
   apiUrl: string = ''
   baseUrl: string = "CustomspilotWeb/VendorSearch/api/GetVendors?countryCode=";
   siteKey: string = ''
-
+  isCountySuggestionsVisible: boolean = false;
+  isTypeSuggestionsVisible: boolean = false;
   //בשביל החיפוש של הAEO
   vendorId: number = -1;
   textAEONumber: string = "";
@@ -131,8 +132,6 @@ export class VendorComponent implements OnInit {
 
     //פניה לשרות על מנת לקבל את כל הארצות
     this.callService('/shaarolami/CustomspilotWeb/SystemTables/api/GetTableData?tableName=Country').
-      // subscribe(response => { this.onSuccessCountry(response) },
-      //   error => { console.error(error) });
       subscribe({
         next: (response) =>
           this.onSuccessCountry(response),
@@ -141,8 +140,6 @@ export class VendorComponent implements OnInit {
     //פניה לשרות על מנת לקבל את כל הסוגים
 
     this.callService('/shaarolami/CustomspilotWeb/SystemTables/api/GetTableData?tableName=VendorType').
-      // subscribe(response => { this.onSuccessVendorType(response) },
-      //   error => { console.error(error) })
       subscribe({
         next: (response) =>
           this.onSuccessVendorType(response),
@@ -221,10 +218,13 @@ export class VendorComponent implements OnInit {
   //onDropdownClick- בשביל ה 
   initCountyTablesList(list: SystemTable[]) {
     this.filteredDataCountry = list.filter((elem, index, self) => index === self.findIndex(i => i == elem));
+    this.isCountySuggestionsVisible = this.filteredDataCountry.length > 0;
   }
   //onDropdownClick- בשביל ה 
   initTypeTablesList(list: SystemTable[]) {
     this.filteredDataType = list.filter((elem, index, self) => index === self.findIndex(i => i == elem));
+    this.isTypeSuggestionsVisible = this.filteredDataType.length > 0;
+
   }
   searchData() {
 
@@ -265,11 +265,16 @@ export class VendorComponent implements OnInit {
     return canShow;
   }
 
+  @ViewChild('countryRequiredAutoComplete') countryRequiredAutoComplete!: ElementRef;
+  @ViewChild('typeRequiredAutoComplete') typeRequiredAutoComplete!: ElementRef;
+
   flagErrorFeildCountryFunc() {
     this.flagErrorFeildCountry = true;
+    this.focusElement(this.countryRequiredAutoComplete);
   }
   flagErrorFeildTypeFunc() {
     this.flagErrorFeildType = true;
+    this.focusElement(this.typeRequiredAutoComplete);
   }
 
   GetDataFromService() {
@@ -279,9 +284,7 @@ export class VendorComponent implements OnInit {
     this.baseUrl += (this.textNameNumber != undefined && this.textNameNumber.toString() != "") ? "&vendorId=" + this.textNameNumber : '';
     this.baseUrl += (this.textVendorName != undefined && this.textVendorName.toString() != "") ? "&vendorName=" + this.textVendorName : '';
     this.baseUrl += (this.textAEONumber != undefined && this.textAEONumber.toString() != "") ? "&AEOCertificateNumber=" + this.textAEONumber : '';
-    this.callService(this.apiUrl + this.baseUrl + "&captcha=" + this.captchaResponse).//this.captcha.getResponse()).
-      // subscribe(response => { this.onSuccess(response) },
-      //   error => { console.error(error) });
+    this.callService(this.apiUrl + this.baseUrl + "&captcha=" + this.captchaResponse).
       subscribe({
         next: (response) => this.onSuccess(response),
         error: (error) => console.error(error),
@@ -303,6 +306,8 @@ export class VendorComponent implements OnInit {
       this.flagNotRequiredType = false;
       this.flag = false;
     }
+
+
   }
 
   resetPaging() {
@@ -324,9 +329,10 @@ export class VendorComponent implements OnInit {
 
   @ViewChild('captchaRef') captchaRef: RecaptchaComponent | undefined;
 
+
   // פונקציה שבודקת האם כל שדות החובה מלאים
   checkRequiredFields(response: string | null) {
-    this.captchaRef?.execute()
+    // this.captchaRef?.execute()
     // var response = this.captcha.getResponse();
     if (response?.length === 0) {
       (<any>window).captchaRef?.execute();
@@ -335,9 +341,30 @@ export class VendorComponent implements OnInit {
         this.GetDataFromService()
       }
       if (this.flag == false) {
+        if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete)
+        if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete)
         this.flagErrorFeildCountry = true;
         this.flagErrorFeildType = true;
       }
+    }
+  }
+
+  toggleCountryDropdownVisibility() {
+    this.isCountySuggestionsVisible = !this.isCountySuggestionsVisible;
+  }
+
+  toggleTypeDropdownVisibility() {
+    this.isTypeSuggestionsVisible = !this.isTypeSuggestionsVisible;
+  }
+
+  focusElement(element: any) {
+    if (element) {
+      setTimeout(() => {
+        const input = element.el.nativeElement.querySelector('input');
+        if (input) {
+          input.focus();
+        }
+      }, 0);
     }
   }
 
