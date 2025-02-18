@@ -74,6 +74,8 @@ export class VendorComponent implements OnInit {
   //שומר את כמות הרשומות שחזרו עבור אותו חיפוש
   mesResult = "";
   captchaResponse: string | null = null;
+  private shaarolamiBaseUrl = environment.baseUrls.shaarolami;
+
   //לצורך החיפוש האוטו-קומפלט 
   //של הארצות
   get selectedtablesTypeListString(): string {
@@ -131,7 +133,7 @@ export class VendorComponent implements OnInit {
     ];
 
     //פניה לשרות על מנת לקבל את כל הארצות
-    this.callService('/shaarolami/CustomspilotWeb/SystemTables/api/GetTableData?tableName=Country').
+    this.callService(`${this.shaarolamiBaseUrl}/CustomspilotWeb/SystemTables/api/GetTableData?tableName=Country`).
       subscribe({
         next: (response) =>
           this.onSuccessCountry(response),
@@ -139,7 +141,7 @@ export class VendorComponent implements OnInit {
       })
     //פניה לשרות על מנת לקבל את כל הסוגים
 
-    this.callService('/shaarolami/CustomspilotWeb/SystemTables/api/GetTableData?tableName=VendorType').
+    this.callService(`${this.shaarolamiBaseUrl}/CustomspilotWeb/SystemTables/api/GetTableData?tableName=VendorType`).
       subscribe({
         next: (response) =>
           this.onSuccessVendorType(response),
@@ -278,7 +280,7 @@ export class VendorComponent implements OnInit {
   }
 
   GetDataFromService() {
-    this.apiUrl = '/shaarolami'
+    this.apiUrl = `${this.shaarolamiBaseUrl}`
     this.baseUrl = "/CustomspilotWeb/VendorSearch/api/GetVendors?countryCode="
     this.baseUrl += this.selectedCountryList.ID + "&customerTypeId=" + this.selectedTypeList.ID;
     this.baseUrl += (this.textNameNumber != undefined && this.textNameNumber.toString() != "") ? "&vendorId=" + this.textNameNumber : '';
