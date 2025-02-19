@@ -51,7 +51,7 @@ export class VendorComponent implements OnInit {
   //בשביל לדעת האם להציג את הטבלה או לא
   flag: boolean = false;
   //בשביל לדעת האם חזר נתונים מהשרות
-  flagservice: boolean = false;
+  flagservice!: boolean;
   //מכיל את הארץ והסוג הנבחרים
   selectedCountryList: any;
   selectedTypeList: any;
@@ -180,6 +180,7 @@ export class VendorComponent implements OnInit {
   }
 
   private onSuccess(data: any) {
+    console.log('onSuccess');
     if (data["VendorResults"] == undefined) {
       this.mes = data;
       //לא חזרו  נתונים מהשרות
@@ -280,6 +281,7 @@ export class VendorComponent implements OnInit {
   }
 
   GetDataFromService() {
+    console.log('GetDataFromService');
     this.apiUrl = `${this.shaarolamiBaseUrl}`
     this.baseUrl = "/CustomspilotWeb/VendorSearch/api/GetVendors?countryCode="
     this.baseUrl += this.selectedCountryList.ID + "&customerTypeId=" + this.selectedTypeList.ID;
@@ -308,8 +310,6 @@ export class VendorComponent implements OnInit {
       this.flagNotRequiredType = false;
       this.flag = false;
     }
-
-
   }
 
   resetPaging() {
@@ -336,7 +336,8 @@ export class VendorComponent implements OnInit {
   checkRequiredFields(response: string | null) {
     // this.captchaRef?.execute()
     // var response = this.captcha.getResponse();
-    if (response?.length === 0) {
+    console.log('checkRequiredFields');
+    if (response?.length === 0 && this.captchaResponse == null) {
       (<any>window).captchaRef?.execute();
     } else {
       if (this.flag == true) {
