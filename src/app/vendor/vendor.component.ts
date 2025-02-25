@@ -317,35 +317,35 @@ export class VendorComponent implements OnInit {
     this.table.reset();
   }
 
-  // showResponse(response: any) {
-  //   this.captchaResponse = response;
-  //   this.checkRequiredFields(response)
-  // }
+  @ViewChild('captchaRef') captchaRef: RecaptchaComponent | undefined;
+  executeCaptcha() {
+    console.log('Executing reCAPTCHA...');
+    this.captchaRef?.execute(); // ✅ This should trigger the CAPTCHA
+  }
 
   resolved(captchaResponse: string | null): void {
-    console.log('CAPTCHA resolved with response:', captchaResponse);
+    console.log('✅ CAPTCHA resolved with response:', captchaResponse);
     if (captchaResponse) this.captchaFlag = true;
     this.captchaResponse = captchaResponse;
+
+    // Call checkRequiredFields *after* CAPTCHA is resolved
     this.checkRequiredFields(captchaResponse);
   }
 
-  @ViewChild('captchaRef') captchaRef: RecaptchaComponent | undefined;
-
-
-  // פונקציה שבודקת האם כל שדות החובה מלאים
   checkRequiredFields(response: string | null) {
-    // this.captchaRef?.execute()
-    // var response = this.captcha.getResponse();
-    console.log('checkRequiredFields');
-    if (response?.length === 0 && this.captchaResponse == null) {
-      (<any>window).captchaRef?.execute();
+    console.log('checkRequiredFields called with response:', response);
+
+    if (!response && !this.captchaResponse) {
+      console.log('⚠️ No CAPTCHA response, re-executing CAPTCHA...');
+      this.executeCaptcha();
     } else {
-      if (this.flag == true) {
-        this.GetDataFromService()
-      }
-      if (this.flag == false) {
-        if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete)
-        if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete)
+      console.log('✅ CAPTCHA response received, proceeding...');
+      // Your logic here
+      if (this.flag) {
+        this.GetDataFromService();
+      } else {
+        if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete);
+        if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete);
         this.flagErrorFeildCountry = true;
         this.flagErrorFeildType = true;
       }
