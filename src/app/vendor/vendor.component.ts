@@ -151,25 +151,6 @@ export class VendorComponent implements OnInit {
   private callService(url: string): Observable<any> {
     return this.http.get<any>(url);
   }
-  //הפונקציה מבצעת פניה לשירות 
-  // private callService(url: string, method: string): Observable<string> {
-  //   return Observable.create(observer => {
-  //     let xhr = new XMLHttpRequest();
-  //     xhr.onreadystatechange = function () {
-  //       if (xhr.readyState === 4) {
-  //         if (xhr.status === 200) {
-  //           observer.next(JSON.parse(xhr.response));
-  //           observer.complete();
-  //         } else {
-  //           observer.error(xhr.response)
-  //         }
-  //       }
-  //     }
-
-  //     xhr.open(method, url, true);
-  //     xhr.send();
-  //   });
-  // }
 
   private onSuccessCountry(data: any) {
     this.StatesList = data.map((r: SystemTable) => new SystemTable(r.ID, r.MalamId, r.Name, r.State, r.ExtraStringData));
@@ -288,13 +269,14 @@ export class VendorComponent implements OnInit {
     this.baseUrl += (this.textNameNumber != undefined && this.textNameNumber.toString() != "") ? "&vendorId=" + this.textNameNumber : '';
     this.baseUrl += (this.textVendorName != undefined && this.textVendorName.toString() != "") ? "&vendorName=" + this.textVendorName : '';
     this.baseUrl += (this.textAEONumber != undefined && this.textAEONumber.toString() != "") ? "&AEOCertificateNumber=" + this.textAEONumber : '';
+    this.captchaResponse = grecaptcha?.getResponse();
     this.callService(this.apiUrl + this.baseUrl + "&captcha=" + this.captchaResponse).
       subscribe({
         next: (response) => this.onSuccess(response),
         error: (error) => console.error(error),
       })
 
-    // this.captcha.reset();
+    this.captcha.reset();
     this.captchaResponse = ''
 
   }
@@ -320,32 +302,27 @@ export class VendorComponent implements OnInit {
   @ViewChild('captchaRef') captchaRef: RecaptchaComponent | undefined;
   executeCaptcha() {
     console.log('Executing reCAPTCHA...');
-    this.captchaRef?.execute(); // ✅ This should trigger the CAPTCHA
+    this.captchaRef?.execute();
   }
 
   resolved(captchaResponse: string | null): void {
     console.log('✅ CAPTCHA resolved with response:', captchaResponse);
     if (captchaResponse) this.captchaFlag = true;
     this.captchaResponse = captchaResponse;
-
-    // Call checkRequiredFields *after* CAPTCHA is resolved
     this.checkRequiredFields(captchaResponse);
   }
 
   checkRequiredFields(response: string | null) {
+    if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete);
+    if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete);
     console.log('checkRequiredFields called with response:', response);
     this.captchaResponse = grecaptcha?.getResponse();
     if (!response && !this.captchaResponse) {
-      console.log('⚠️ No CAPTCHA response, re-executing CAPTCHA...');
       this.executeCaptcha();
     } else {
-      console.log('✅ CAPTCHA response received, proceeding...');
-      // Your logic here
       if (this.flag) {
         this.GetDataFromService();
       } else {
-        if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete);
-        if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete);
         this.flagErrorFeildCountry = true;
         this.flagErrorFeildType = true;
       }
