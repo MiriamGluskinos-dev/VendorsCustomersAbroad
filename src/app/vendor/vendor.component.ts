@@ -334,7 +334,7 @@ export class VendorComponent implements OnInit {
 
   checkRequiredFields(response: string | null) {
     console.log('checkRequiredFields called with response:', response);
-
+    this.captchaResponse = grecaptcha?.getResponse();
     if (!response && !this.captchaResponse) {
       console.log('⚠️ No CAPTCHA response, re-executing CAPTCHA...');
       this.executeCaptcha();
