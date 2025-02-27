@@ -269,7 +269,7 @@ export class VendorComponent implements OnInit {
     this.baseUrl += (this.textNameNumber != undefined && this.textNameNumber.toString() != "") ? "&vendorId=" + this.textNameNumber : '';
     this.baseUrl += (this.textVendorName != undefined && this.textVendorName.toString() != "") ? "&vendorName=" + this.textVendorName : '';
     this.baseUrl += (this.textAEONumber != undefined && this.textAEONumber.toString() != "") ? "&AEOCertificateNumber=" + this.textAEONumber : '';
-    this.captchaResponse = grecaptcha?.getResponse();
+    this.executeCaptcha();
     this.callService(this.apiUrl + this.baseUrl + "&captcha=" + this.captchaResponse).
       subscribe({
         next: (response) => this.onSuccess(response),
@@ -313,8 +313,6 @@ export class VendorComponent implements OnInit {
   }
 
   checkRequiredFields(response: string | null) {
-    if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete);
-    if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete);
     console.log('checkRequiredFields called with response:', response);
     this.captchaResponse = grecaptcha?.getResponse();
     if (!response && !this.captchaResponse) {
@@ -327,6 +325,8 @@ export class VendorComponent implements OnInit {
         this.flagErrorFeildType = true;
       }
     }
+    if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete);
+    if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete);
   }
 
   toggleCountryDropdownVisibility() {
@@ -344,7 +344,7 @@ export class VendorComponent implements OnInit {
         if (input) {
           input.focus();
         }
-      }, 0);
+      }, 100);
     }
   }
 
