@@ -269,6 +269,7 @@ export class VendorComponent implements OnInit {
     this.baseUrl += (this.textNameNumber != undefined && this.textNameNumber.toString() != "") ? "&vendorId=" + this.textNameNumber : '';
     this.baseUrl += (this.textVendorName != undefined && this.textVendorName.toString() != "") ? "&vendorName=" + this.textVendorName : '';
     this.baseUrl += (this.textAEONumber != undefined && this.textAEONumber.toString() != "") ? "&AEOCertificateNumber=" + this.textAEONumber : '';
+    this.executeCaptcha();
     this.callService(this.apiUrl + this.baseUrl + "&captcha=" + this.captchaResponse).
       subscribe({
         next: (response) => this.onSuccess(response),
@@ -277,7 +278,7 @@ export class VendorComponent implements OnInit {
 
     this.captcha.reset();
     this.captchaResponse = ''
-    this.executeCaptcha();
+
   }
   clearFilter() {
     if (this.selectedCountryList == undefined || this.selectedCountryList == null || this.selectedCountryList == "") {
@@ -324,6 +325,8 @@ export class VendorComponent implements OnInit {
         this.flagErrorFeildType = true;
       }
     }
+    if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete);
+    if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete);
   }
 
   toggleCountryDropdownVisibility() {
