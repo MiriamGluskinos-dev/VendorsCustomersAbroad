@@ -269,19 +269,15 @@ export class VendorComponent implements OnInit {
     this.baseUrl += (this.textNameNumber != undefined && this.textNameNumber.toString() != "") ? "&vendorId=" + this.textNameNumber : '';
     this.baseUrl += (this.textVendorName != undefined && this.textVendorName.toString() != "") ? "&vendorName=" + this.textVendorName : '';
     this.baseUrl += (this.textAEONumber != undefined && this.textAEONumber.toString() != "") ? "&AEOCertificateNumber=" + this.textAEONumber : '';
-    this.executeCaptcha().then((captchaResponse) => {
-      if (!captchaResponse) return;
-
-      this.callService(this.apiUrl + this.baseUrl + "&captcha=" + captchaResponse)
-        .subscribe({
-          next: (response) => this.onSuccess(response),
-          error: (error) => console.error(error),
-        });
-    });
+    this.callService(this.apiUrl + this.baseUrl + "&captcha=" + this.captchaResponse).
+      subscribe({
+        next: (response) => this.onSuccess(response),
+        error: (error) => console.error(error),
+      })
 
     this.captcha.reset();
     this.captchaResponse = ''
-
+    this.executeCaptcha();
   }
   clearFilter() {
     if (this.selectedCountryList == undefined || this.selectedCountryList == null || this.selectedCountryList == "") {
@@ -303,21 +299,10 @@ export class VendorComponent implements OnInit {
   }
 
   @ViewChild('captchaRef') captchaRef: RecaptchaComponent | undefined;
-  // executeCaptcha() {
-  //   console.log('Executing reCAPTCHA...');
-  //   this.captchaRef?.execute();
-  // }
-  executeCaptcha(): Promise<string | null> {
-    return new Promise((resolve) => {
-      this.resolved = (captchaResponse: string | null) => {
-        console.log('✅ CAPTCHA resolved with response:', captchaResponse);
-        this.captchaResponse = captchaResponse;
-        resolve(captchaResponse);
-      };
-      this.captchaRef?.execute();
-    });
+  executeCaptcha() {
+    console.log('Executing reCAPTCHA...');
+    this.captchaRef?.execute();
   }
-
 
   resolved(captchaResponse: string | null): void {
     console.log('✅ CAPTCHA resolved with response:', captchaResponse);
@@ -339,8 +324,6 @@ export class VendorComponent implements OnInit {
         this.flagErrorFeildType = true;
       }
     }
-    if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete);
-    if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete);
   }
 
   toggleCountryDropdownVisibility() {
@@ -358,7 +341,7 @@ export class VendorComponent implements OnInit {
         if (input) {
           input.focus();
         }
-      }, 100);
+      }, 0);
     }
   }
 
