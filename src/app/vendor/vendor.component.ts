@@ -261,7 +261,7 @@ export class VendorComponent implements OnInit {
     this.focusElement(this.typeRequiredAutoComplete);
   }
 
-  GetDataFromService() {
+  GetDataFromService(captcha: string) {
     console.log('GetDataFromService');
     this.apiUrl = `${this.shaarolamiBaseUrl}`
     this.baseUrl = "/CustomspilotWeb/VendorSearch/api/GetVendors?countryCode="
@@ -269,7 +269,7 @@ export class VendorComponent implements OnInit {
     this.baseUrl += (this.textNameNumber != undefined && this.textNameNumber.toString() != "") ? "&vendorId=" + this.textNameNumber : '';
     this.baseUrl += (this.textVendorName != undefined && this.textVendorName.toString() != "") ? "&vendorName=" + this.textVendorName : '';
     this.baseUrl += (this.textAEONumber != undefined && this.textAEONumber.toString() != "") ? "&AEOCertificateNumber=" + this.textAEONumber : '';
-    this.callService(this.apiUrl + this.baseUrl + "&captcha=" + this.captchaResponse).
+    this.callService(this.apiUrl + this.baseUrl + "&captcha=" + captcha).
       subscribe({
         next: (response) => this.onSuccess(response),
         error: (error) => console.error(error),
@@ -277,9 +277,8 @@ export class VendorComponent implements OnInit {
 
     this.captcha.reset();
     this.captchaResponse = ''
-    // this.executeCaptcha();
-
   }
+  
   clearFilter() {
     if (this.selectedCountryList == undefined || this.selectedCountryList == null || this.selectedCountryList == "") {
       this.flagNotRequiredCountry = false;
@@ -300,54 +299,87 @@ export class VendorComponent implements OnInit {
   }
 
   @ViewChild('captchaRef') captchaRef: RecaptchaComponent | undefined;
-  executeCaptcha() {
+  async executeCaptcha(): Promise<string> {
+    this.captchaResponse = null; // Reset response before execution
+    if (!this.captchaRef) {
+      console.error('⚠️ No CAPTCHA reference found');
+      throw new Error('No CAPTCHA reference found');
+    }
     console.log('Executing reCAPTCHA...');
-    this.captchaRef?.execute();
+
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        alert('❌ CAPTCHA resolution timed out. Please try again.'); // User feedback
+        reject(new Error('❌ CAPTCHA resolution timeout'));
+      }, 10000); // 10-second timeout
+  
+      this.captchaRef?.execute(); // Execute CAPTCHA
+  
+      // Handle CAPTCHA resolution
+      this.resolved = (captchaResponse: string | null) => {
+        console.log('✅ CAPTCHA resolved:', captchaResponse);
+        clearTimeout(timeout); // Clear timeout when resolved
+  
+        if (captchaResponse) {
+          this.captchaResponse = captchaResponse;
+          resolve(captchaResponse);
+        } else {
+          reject(new Error('❌ CAPTCHA failed to resolve'));
+        }
+      };
+    });
   }
 
   resolved(captchaResponse: string | null): void {
     console.log('✅ CAPTCHA resolved with response:', captchaResponse);
-    if (captchaResponse) this.captchaFlag = true;
     this.captchaResponse = captchaResponse;
-    this.checkRequiredFields(captchaResponse);
   }
 
-  checkRequiredFields(response: string | null) {
-    console.log('checkRequiredFields called with response:', response);
-    // this.captchaResponse = grecaptcha?.getResponse();
-    // if (!response && !this.captchaResponse) {
-    this.executeCaptcha();
-    // } else {
-    if (this.flag) {
-      this.GetDataFromService();
-    } else {
-      this.flagErrorFeildCountry = true;
-      this.flagErrorFeildType = true;
-    }
-    // }
-    if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete);
-    if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete);
-  }
+  async checkRequiredFields() {
+    try {
+      if (this.flagRequiredType) {
+        this.flagErrorFeildType = true;
+        this.focusElement(this.typeRequiredAutoComplete);
+      }
+      if (this.flagRequiredCountry) {
+        this.flagErrorFeildCountry = true;
+        this.focusElement(this.countryRequiredAutoComplete);
+      }
+      if (this.flagRequiredType || this.flagRequiredCountry) return;
+      const captcha = await this.executeCaptcha(); // Wait for CAPTCHA response
+      console.log('🔹 CAPTCHA received:', captcha);
 
-  toggleCountryDropdownVisibility() {
-    this.isCountySuggestionsVisible = !this.isCountySuggestionsVisible;
-  }
-
-  toggleTypeDropdownVisibility() {
-    this.isTypeSuggestionsVisible = !this.isTypeSuggestionsVisible;
-  }
-
-  focusElement(element: any) {
-    if (element) {
-      setTimeout(() => {
-        const input = element.el.nativeElement.querySelector('input');
-        if (input) {
-          input.focus();
+      if (this.flag) {
+        await this.GetDataFromService(captcha);
+      } else {
+        this.flagErrorFeildCountry = true;
+        this.flagErrorFeildType = true;
         }
-      }, 100);
+      
+    } catch (error) {
+      console.error('⚠️ CAPTCHA error:', error);
     }
   }
 
-}
+    toggleCountryDropdownVisibility() {
+      this.isCountySuggestionsVisible = !this.isCountySuggestionsVisible;
+    }
+
+    toggleTypeDropdownVisibility() {
+      this.isTypeSuggestionsVisible = !this.isTypeSuggestionsVisible;
+    }
+
+    focusElement(element: any) {
+      if (element) {
+        setTimeout(() => {
+          const input = element.el.nativeElement.querySelector('input');
+          if (input) {
+            input.focus();
+          }
+        }, 100);
+      }
+    }
+
+  }
 
 
