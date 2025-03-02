@@ -277,7 +277,7 @@ export class VendorComponent implements OnInit {
 
     this.captcha.reset();
     this.captchaResponse = ''
-    this.executeCaptcha();
+    // this.executeCaptcha();
 
   }
   clearFilter() {
@@ -314,17 +314,17 @@ export class VendorComponent implements OnInit {
 
   checkRequiredFields(response: string | null) {
     console.log('checkRequiredFields called with response:', response);
-    this.captchaResponse = grecaptcha?.getResponse();
-    if (!response && !this.captchaResponse) {
-      this.executeCaptcha();
+    // this.captchaResponse = grecaptcha?.getResponse();
+    // if (!response && !this.captchaResponse) {
+    this.executeCaptcha();
+    // } else {
+    if (this.flag) {
+      this.GetDataFromService();
     } else {
-      if (this.flag) {
-        this.GetDataFromService();
-      } else {
-        this.flagErrorFeildCountry = true;
-        this.flagErrorFeildType = true;
-      }
+      this.flagErrorFeildCountry = true;
+      this.flagErrorFeildType = true;
     }
+    // }
     if (this.flagRequiredType) this.focusElement(this.typeRequiredAutoComplete);
     if (this.flagRequiredCountry) this.focusElement(this.countryRequiredAutoComplete);
   }
@@ -344,7 +344,7 @@ export class VendorComponent implements OnInit {
         if (input) {
           input.focus();
         }
-      }, 0);
+      }, 100);
     }
   }
 
