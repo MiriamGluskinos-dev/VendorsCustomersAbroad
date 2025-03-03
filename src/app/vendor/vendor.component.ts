@@ -29,7 +29,6 @@ export class VendorComponent implements OnInit {
     'נתוני הפלט בשאילתה מציגים עד 5 מופעים העונים על נתוני הקלט. בנוסף ניתנת אינדקציה על מספר הרשומות הכולל העונה על נתוני הקלט.'];
   currentIndex: number = 0;
   @ViewChild('dt') table!: Table;
-  @ViewChild('cpt') captcha: any;
   heIL: any;
   //מדינות
   StatesList: SystemTable[];
@@ -101,7 +100,7 @@ export class VendorComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.captcha.reset();
+    this.captchaRef?.reset();
   }
 
   // recaptcha: any
@@ -275,7 +274,8 @@ export class VendorComponent implements OnInit {
         error: (error) => console.error(error),
       })
 
-    this.captcha.reset();
+
+    this.captchaRef?.reset();
     this.captchaResponse = ''
   }
   
@@ -301,24 +301,20 @@ export class VendorComponent implements OnInit {
   @ViewChild('captchaRef') captchaRef: RecaptchaComponent | undefined;
   async executeCaptcha(): Promise<string> {
     this.captchaResponse = null; // Reset response before execution
+    
     if (!this.captchaRef) {
       console.error('⚠️ No CAPTCHA reference found');
       throw new Error('No CAPTCHA reference found');
     }
     console.log('Executing reCAPTCHA...');
 
-    return new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        alert('❌ CAPTCHA resolution timed out. Please try again.'); // User feedback
-        reject(new Error('❌ CAPTCHA resolution timeout'));
-      }, 10000); // 10-second timeout
+    return new Promise(async (resolve, reject) => {
   
-      this.captchaRef?.execute(); // Execute CAPTCHA
+      await this.captchaRef?.execute(); // Execute CAPTCHA
   
       // Handle CAPTCHA resolution
       this.resolved = (captchaResponse: string | null) => {
         console.log('✅ CAPTCHA resolved:', captchaResponse);
-        clearTimeout(timeout); // Clear timeout when resolved
   
         if (captchaResponse) {
           this.captchaResponse = captchaResponse;
