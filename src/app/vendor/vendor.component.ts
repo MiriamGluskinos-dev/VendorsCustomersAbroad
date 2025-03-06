@@ -99,15 +99,28 @@ export class VendorComponent implements OnInit {
     this.siteKey = environment.ReCaptcha.siteKey;
   }
 
-  ngAfterViewInit() {
-    this.captchaRef?.reset();
+  setAutoCompleteButtonAttributes() {
+    setTimeout(() => {
+      const dropdowns = document.querySelectorAll('.p-autocomplete') as NodeListOf<HTMLElement>;
+      dropdowns.forEach((dropdown, index) => {
+        const button = dropdown.querySelector('button') as HTMLButtonElement;
+        if (button) {
+          button.setAttribute('tabindex', '-1');
+          button.setAttribute('aria-hidden', 'true');
+          console.log(`Button ${index + 1}:`, button);
+        } else {
+          console.log(`Dropdown ${index + 1} has no button.`);
+        }
+      });
+    }, 300);
   }
 
-  // recaptcha: any
-  ngOnInit() {
+  ngAfterViewInit() {
+    this.captchaRef?.reset();
+    this.setAutoCompleteButtonAttributes();
+  }
 
-    // this.recaptcha = (window as any).grecaptcha;
-    //this.captchaFlag = false;
+  ngOnInit() {
     this.heIL = {
       firstDayOfWeek: 0,
       dayNames: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
@@ -226,6 +239,7 @@ export class VendorComponent implements OnInit {
     if (((this.selectedCountryList != undefined || this.selectedCountryList != null) && this.selectedCountryList != "") && ((this.selectedTypeList != undefined || this.selectedTypeList != null) && this.selectedTypeList != "")) {
       this.flag = true;
     }
+    this.setAutoCompleteButtonAttributes();
   }
 
   filterResults(rowData: Vendor): boolean {
@@ -278,7 +292,7 @@ export class VendorComponent implements OnInit {
     this.captchaRef?.reset();
     this.captchaResponse = ''
   }
-  
+
   clearFilter() {
     if (this.selectedCountryList == undefined || this.selectedCountryList == null || this.selectedCountryList == "") {
       this.flagNotRequiredCountry = false;
@@ -291,6 +305,7 @@ export class VendorComponent implements OnInit {
       this.flagNotRequiredType = false;
       this.flag = false;
     }
+    this.setAutoCompleteButtonAttributes();
   }
 
   resetPaging() {
@@ -301,7 +316,7 @@ export class VendorComponent implements OnInit {
   @ViewChild('captchaRef') captchaRef: RecaptchaComponent | undefined;
   async executeCaptcha(): Promise<string> {
     this.captchaResponse = null; // Reset response before execution
-    
+
     if (!this.captchaRef) {
       console.error('⚠️ No CAPTCHA reference found');
       throw new Error('No CAPTCHA reference found');
@@ -309,13 +324,13 @@ export class VendorComponent implements OnInit {
     console.log('Executing reCAPTCHA...');
 
     return new Promise(async (resolve, reject) => {
-  
+
       await this.captchaRef?.execute(); // Execute CAPTCHA
-  
+
       // Handle CAPTCHA resolution
       this.resolved = (captchaResponse: string | null) => {
         console.log('✅ CAPTCHA resolved:', captchaResponse);
-  
+
         if (captchaResponse) {
           this.captchaResponse = captchaResponse;
           resolve(captchaResponse);
@@ -350,32 +365,32 @@ export class VendorComponent implements OnInit {
       } else {
         this.flagErrorFeildCountry = true;
         this.flagErrorFeildType = true;
-        }
-      
+      }
+
     } catch (error) {
       console.error('⚠️ CAPTCHA error:', error);
     }
   }
 
-    toggleCountryDropdownVisibility() {
-      this.isCountySuggestionsVisible = !this.isCountySuggestionsVisible;
-    }
-
-    toggleTypeDropdownVisibility() {
-      this.isTypeSuggestionsVisible = !this.isTypeSuggestionsVisible;
-    }
-
-    focusElement(element: any) {
-      if (element) {
-        setTimeout(() => {
-          const input = element.el.nativeElement.querySelector('input');
-          if (input) {
-            input.focus();
-          }
-        }, 100);
-      }
-    }
-
+  toggleCountryDropdownVisibility() {
+    this.isCountySuggestionsVisible = !this.isCountySuggestionsVisible;
   }
+
+  toggleTypeDropdownVisibility() {
+    this.isTypeSuggestionsVisible = !this.isTypeSuggestionsVisible;
+  }
+
+  focusElement(element: any) {
+    if (element) {
+      setTimeout(() => {
+        const input = element.el.nativeElement.querySelector('input');
+        if (input) {
+          input.focus();
+        }
+      }, 100);
+    }
+  }
+
+}
 
 

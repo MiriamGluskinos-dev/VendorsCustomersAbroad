@@ -12,10 +12,10 @@
         (completeMethod)="filterCountry()" [(ngModel)]="selectedCountryList" autoHighlight field="Name"
         (onSelect)="searchData(); filterCountry();flagErrorFeildCountryFunc();" (onClear)="clearFilter()"
         (onDropdownClick)="initCountyTablesList(StatesList); toggleCountryDropdownVisibility()"
-        [attr.aria-expanded]="isCountySuggestionsVisible ? true : false">
+        [attr.aria-expanded]="isCountySuggestionsVisible ? true : false" aria-labelledby="countryRequired">
 
       </p-autoComplete>
-      <div class="input-error" style="display: block;" *ngIf="flagRequiredCountry&&flagErrorFeildCountry">
+      <div id="countryRequired" class="input-error" style="display: block;" *ngIf="flagRequiredCountry&&flagErrorFeildCountry">
         שדה זה הוא שדה חובה</div>
     </ng-template>
 
@@ -43,9 +43,9 @@
         (completeMethod)="filterType()" [(ngModel)]="selectedTypeList" [appendTo]="'body'"
         (onSelect)="searchData();flagErrorFeildTypeFunc();" (onClear)="filterType()" field="Name" autoHighlight
         (onDropdownClick)="initTypeTablesList(typeList); toggleTypeDropdownVisibility()"
-        [attr.aria-expanded]="isTypeSuggestionsVisible ? true : false">
+        [attr.aria-expanded]="isTypeSuggestionsVisible ? true : false" aria-labelledby="typeRequired">
       </p-autoComplete>
-      <div class="input-error" style="display: block;" *ngIf="flagRequiredType&&flagErrorFeildType">
+      <div id="typeRequired" class="input-error" style="display: block;" *ngIf="flagRequiredType&&flagErrorFeildType">
         שדה זה הוא שדה חובה</div>
     </ng-template>
 
@@ -107,7 +107,7 @@
 
   <div class="col-6 col-sm-2 col-lg-2 lg-mb-30 xs-mb-25">
     <p class="nounderline pull-left pointer ltr excelStyle" aria-label="להורדה בפורמט אקסל או CSV"
-      (click)="table.exportCSV()">
+      (click)="table.exportCSV()" tabindex="0" style="width: fit-content;">
       <img src="assets/images/excel.png" alt="Excel Icon" class="blue-txt social-size"
         style="width: 45px; height: 40px;" tabindex="0">
     </p>
