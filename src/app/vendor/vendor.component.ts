@@ -275,7 +275,6 @@ export class VendorComponent implements OnInit {
   }
 
   GetDataFromService(captcha: string) {
-    console.log('GetDataFromService');
     this.apiUrl = `${this.shaarolamiBaseUrl}`
     this.baseUrl = "/CustomspilotWeb/VendorSearch/api/GetVendors?countryCode="
     this.baseUrl += this.selectedCountryList.ID + "&customerTypeId=" + this.selectedTypeList.ID;
@@ -315,22 +314,17 @@ export class VendorComponent implements OnInit {
 
   @ViewChild('captchaRef') captchaRef: RecaptchaComponent | undefined;
   async executeCaptcha(): Promise<string> {
-    this.captchaResponse = null; // Reset response before execution
+    this.captchaResponse = null;
 
     if (!this.captchaRef) {
-      console.error('⚠️ No CAPTCHA reference found');
       throw new Error('No CAPTCHA reference found');
     }
-    console.log('Executing reCAPTCHA...');
 
     return new Promise(async (resolve, reject) => {
 
-      await this.captchaRef?.execute(); // Execute CAPTCHA
+      await this.captchaRef?.execute();
 
-      // Handle CAPTCHA resolution
       this.resolved = (captchaResponse: string | null) => {
-        console.log('✅ CAPTCHA resolved:', captchaResponse);
-
         if (captchaResponse) {
           this.captchaResponse = captchaResponse;
           resolve(captchaResponse);
@@ -342,7 +336,6 @@ export class VendorComponent implements OnInit {
   }
 
   resolved(captchaResponse: string | null): void {
-    console.log('✅ CAPTCHA resolved with response:', captchaResponse);
     this.captchaResponse = captchaResponse;
   }
 
@@ -357,9 +350,7 @@ export class VendorComponent implements OnInit {
         this.focusElement(this.countryRequiredAutoComplete);
       }
       if (this.flagRequiredType || this.flagRequiredCountry) return;
-      const captcha = await this.executeCaptcha(); // Wait for CAPTCHA response
-      console.log('🔹 CAPTCHA received:', captcha);
-
+      const captcha = await this.executeCaptcha();
       if (this.flag) {
         await this.GetDataFromService(captcha);
       } else {
@@ -392,5 +383,4 @@ export class VendorComponent implements OnInit {
   }
 
 }
-
 
