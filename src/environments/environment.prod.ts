@@ -1,10 +1,9 @@
 export const environment = {
   production: true,
   configFile: 'assets/settingfolder/setting.json',
-  apiUrl:'https://shaarolami-query.customs.mof.gov.il/',
+  apiUrl: 'https://shaarolami-query.customs.mof.gov.il/',
   ReCaptcha: {
-    jsUrl: 'https://www.google.com/recaptcha/api.js?render=explicit', // default
-    siteKey: '6LcsWN4UAAAAAHsiBVkGFzwYBBOY7NPjsXP2SLAG'
+    siteKey: '6LdeBHQrAAAAALBfiAqeTIIq2DVVEuQenuta1H2-'
   },
   baseUrls: {
     govscript: 'https://www.gov.il/',
