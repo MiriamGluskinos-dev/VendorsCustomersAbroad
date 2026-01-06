@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from "@angular/common/http";
 
+
 /* PrimeNG components */
 import { TableModule } from "primeng/table";
 import { AutoCompleteModule } from 'primeng/autocomplete';
