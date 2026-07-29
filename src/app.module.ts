@@ -24,7 +24,6 @@ import {
 } from './app/app.component';
 import { PageHeaderComponent } from './app/page-header/page-header.component';
 import { VendorComponent } from './app/vendor/vendor.component';
-import { RecaptchaModule, RecaptchaFormsModule } from "ng-recaptcha";
 
 /* Services */
 import { HttpService } from "./app/services/http.service";
@@ -60,9 +59,7 @@ import { FixAutocompleteAttributesDirective } from './app/vendor/fix-autocomplet
     RadioButtonModule,
     PaginatorModule,
     MessagesModule,
-    TabMenuModule,
-    RecaptchaModule,
-    RecaptchaFormsModule
+    TabMenuModule
   ],
   providers: [
     ConfigService,

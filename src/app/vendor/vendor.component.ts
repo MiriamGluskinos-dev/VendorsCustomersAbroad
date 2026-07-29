@@ -7,7 +7,8 @@ import { SystemTable } from '../models/SystemTable';
 import { HttpClient } from '@angular/common/http';
 import * as res from './response.json';
 import { error } from 'console';
-import { RecaptchaComponent } from 'ng-recaptcha';
+
+declare var grecaptcha: any;
 
 @Component({
   selector: 'app-vendor',
@@ -116,8 +117,20 @@ export class VendorComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.captchaRef?.reset();
     this.setAutoCompleteButtonAttributes();
+  }
+
+  private loadRecaptchaEnterpriseScript(): Promise<void> {
+    if (typeof grecaptcha !== 'undefined' && grecaptcha.enterprise) {
+      return Promise.resolve();
+    }
+    return new Promise((resolve, reject) => {
+      const script = this.renderer.createElement('script');
+      script.src = `https://www.google.com/recaptcha/enterprise.js?render=${this.siteKey}`;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Failed to load reCAPTCHA Enterprise script'));
+      this.renderer.appendChild(document.head, script);
+    });
   }
 
   ngOnInit() {
@@ -288,7 +301,6 @@ export class VendorComponent implements OnInit {
       })
 
 
-    this.captchaRef?.reset();
     this.captchaResponse = ''
   }
 
@@ -312,31 +324,22 @@ export class VendorComponent implements OnInit {
     this.table.reset();
   }
 
-  @ViewChild('captchaRef') captchaRef: RecaptchaComponent | undefined;
   async executeCaptcha(): Promise<string> {
     this.captchaResponse = null;
 
-    if (!this.captchaRef) {
-      throw new Error('No CAPTCHA reference found');
-    }
+    await this.loadRecaptchaEnterpriseScript();
 
-    return new Promise(async (resolve, reject) => {
-
-      await this.captchaRef?.execute();
-
-      this.resolved = (captchaResponse: string | null) => {
-        if (captchaResponse) {
-          this.captchaResponse = captchaResponse;
-          resolve(captchaResponse);
-        } else {
+    return new Promise((resolve, reject) => {
+      grecaptcha.enterprise.ready(async () => {
+        try {
+          const token = await grecaptcha.enterprise.execute(this.siteKey, { action: 'submit' });
+          this.captchaResponse = token;
+          resolve(token);
+        } catch (err) {
           reject(new Error('❌ CAPTCHA failed to resolve'));
         }
-      };
+      });
     });
-  }
-
-  resolved(captchaResponse: string | null): void {
-    this.captchaResponse = captchaResponse;
   }
 
   async checkRequiredFields() {
