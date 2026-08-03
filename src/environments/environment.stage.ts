@@ -6,8 +6,8 @@ export const environment = {
       siteKey: '6Lf13jstAAAAAPPv7DWH5ZC1fqaHu9flPOVzKI4P'
     },
     baseUrls: {
-      govscript: '/govscript',
-      shaarolami: '/shaarolami'
+      govscript: 'https://www.gov.il',
+      shaarolami: 'https://shaarolami-query-stage.customs.mof.gov.il'
     },
      version: 'stage'
   };
